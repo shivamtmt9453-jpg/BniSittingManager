@@ -86,7 +86,7 @@
                 <!-- Sidebar toggle button-->
                 <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button" style="display: flex; align-items: center;">
                     <span class="sr-only">Toggle navigation</span>
-                    <span style="font-family: 'Source Sans Pro';margin-left: 20px; font-weight: bold; color: white;">CHIEF</span>
+                    <span style="font-family: 'Source Sans Pro';margin-left: 20px; font-weight: bold; color: white;">BNI Evolve</span>
                 </a>
 
                 <div class="navbar-custom-menu">
@@ -95,14 +95,14 @@
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 <img src="@Url.Content("~/adminassets/img/def-profile-img.png")" class="user-image" alt="User Image" />
 
-                                <span class="hidden-xs">CHIEF</span>
+                                <span class="hidden-xs">BNI Evolve</span>
                             </a>
                             <ul class="dropdown-menu">
                                 <!-- User image -->
                                 <li class="user-header">
                                     <img src="@Url.Content("~/adminassets/img/def-profile-img.png")" class="img-circle" alt="User Image" />
                                     <p>
-                                        CHIEF
+                                        BNI Evolve
                                     </p>
                                 </li>
                                 <!-- Menu Footer-->
@@ -131,7 +131,7 @@
             <section class="sidebar">
                 <div class="user-panel">
                     <div class="adminlogo">
-                        <a href="/admin/Dashboard/index"><img src="~/assets/img/png-2026chief-logos/logo.png" /></a>
+                        <a href="/admin/Dashboard/index"><img src="~/assets/img/png-2026BNI Evolve-logos/logo.png" /></a>
                     </div>
                 </div>
 
@@ -144,23 +144,32 @@
                         <!-- Admin-only pages -->
                         <li class="treeview">
                             <a href="#">
-                            <i class="fa fa-list"></i> <span>CHIEF Details</span>
+                            <i class="fa fa-list"></i> <span>Master</span>
                                 <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
                             </a>
-                             
+                              
                             <ul class="treeview-menu">
                                 <li><a href="/admin/WhBniSittingManagerDetail/GraduateProgram"><i class="fa fa-user-graduate"></i> <span>Graduate Program</span></a></li>
-
                                 <li><a href="/admin/WhBniSittingManagerDetail/UndergradProgram"><i class="fa fa-book-open"></i> <span>Undergrad Program</span></a></li>
-
+                               <li><a href="/admin/WhBniSittingManagerDetail/TestPrepProgram"><i class="fa fa-pencil-alt"></i> <span>Test Prep Program</span></a></li>
                                 <li><a href="/admin/WhBniSittingManagerDetail/TestPrepProgram"><i class="fa fa-pencil-alt"></i> <span>Test Prep Program</span></a></li>
 
                              </ul> 
                         </li>
-                      
 
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-list"></i> <span>Generate Sitting</span>
+                            <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
+                        </a>
+
+                        <ul class="treeview-menu">
+                            <li><a href="/admin/SitingManage/Index"><i class="fa fa-user-graduate"></i> <span>Graduate Program</span></a></li>
+                            
+                        </ul>
+                    </li>
                     <!-- Common Option for All Roles -->
-                    <li><a href="/admin/Dashboard/ChangePassword"><i class="fa fa-key"></i> <span>Change Password</span></a></li>
+                   @*  <li><a href="/admin/Dashboard/ChangePassword"><i class="fa fa-key"></i> <span>Change Password</span></a></li> *@
                 </ul>
             </section>
         </aside>
@@ -263,22 +272,40 @@
                     table.after(pagination);
                 }
 
-                function showPage(page) {
-                    rows.hide();
-                    var start = (page - 1) * rowsPerPage;
-                    var end = start + rowsPerPage;
-                    rows.slice(start, end).show();
+                     function showPage(page) {
+            rows.hide();
+            var start = (page - 1) * rowsPerPage;
+            var end = start + rowsPerPage;
+            rows.slice(start, end).show();
 
-                    // Only show pagination if more than one page
-                    if (pageCount > 1) {
-                        pagination.html('');
-                        for (var i = 1; i <= pageCount; i++) {
-                            pagination.append('<button class="page-btn btn btn-sm ' + (i === page ? 'btn-primary' : 'btn-default') + '">' + i + '</button>');
-                        }
-                    } else {
-                        pagination.empty();
-                    }
+            if (pageCount > 1) {
+                pagination.html('');
+
+                var maxVisible = 5;
+                var startPage = Math.floor((page - 1) / maxVisible) * maxVisible + 1;
+                var endPage = Math.min(startPage + maxVisible - 1, pageCount);
+
+                // Prev button
+                if (startPage > 1) {
+                    pagination.append('<button class="prev-btn btn btn-sm btn-default">Prev</button>');
                 }
+
+                // Page numbers
+                for (var i = startPage; i <= endPage; i++) {
+                    pagination.append(
+                        '<button class="page-btn btn btn-sm ' +
+                        (i === page ? 'btn-primary' : 'btn-default') + '">' + i + '</button>'
+                    );
+                }
+
+                // Next button
+                if (endPage < pageCount) {
+                    pagination.append('<button class="next-btn btn btn-sm btn-default">Next</button>');
+                }
+            } else {
+                pagination.empty();
+            }
+        }
 
                 // Initial display
                 showPage(1);
@@ -306,6 +333,17 @@
                 });
             });
 
+        });
+                // Next button
+        pagination.on('click', '.next-btn', function() {
+            currentPage = currentPage + 1;
+            showPage(currentPage);
+        });
+
+        // Prev button
+        pagination.on('click', '.prev-btn', function() {
+            currentPage = currentPage - 1;
+            showPage(currentPage);
         });
     </script> 
     @await RenderSectionAsync("Scripts", required: false)

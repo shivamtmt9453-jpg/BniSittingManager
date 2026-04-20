@@ -1,4 +1,5 @@
-﻿using BniSittingManager.Data;
+﻿using BniSittingManager.Areas.Admin.Models;
+using BniSittingManager.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
@@ -27,41 +28,46 @@ namespace BniSittingManager.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> GenerateRounds()
         {
-            await _dbLayer.ExecuteSPAsync("sp_GenerateSixRoundsSeating", new SqlParameter[] { });
+            try
+            {
+                _ = Task.Run(async () =>
+                {
+                    await _dbLayer.ExecuteSPAsync(
+                        "sp_GenerateSixRoundsSeating",
+                        new SqlParameter[] { });
+                });
 
-            TempData["Message"] = "6 Rounds Generated Successfully in One Click!";
-            TempData["MessageType"] = "success";
+                TempData["Message"] = "6 Rounds generation started in background!";
+                TempData["MessageType"] = "success";
+            }
+            catch (Exception ex)
+            {
+                TempData["Message"] = ex.Message;
+                TempData["MessageType"] = "error";
+            }
 
             return RedirectToAction("Index");
         }
         // ================= ROUND WISE VIEW =================
         public async Task<IActionResult> RoundView(int roundId)
         {
-            var list = new List<dynamic>();
+            var list = new List<RoundViewVM>();
 
-            try
-            {
-                var dt = await _dbLayer.ExecuteSPAsync("sp_GetRoundSeating",
-                    new SqlParameter[]
-                    {
-                        new SqlParameter("@RoundId", roundId)
-                    });
-
-                foreach (DataRow r in dt.Rows)
+            var dt = await _dbLayer.ExecuteSPAsync("sp_GetRoundSeating",
+                new SqlParameter[]
                 {
-                    list.Add(new
-                    {
-                        TableName = r["TableName"].ToString(),
-                        SeatNumber = r["SeatNumber"].ToString(),
-                        UserName = r["UserName"].ToString(),
-                        Type = r["Type"].ToString()
-                    });
-                }
-            }
-            catch (Exception ex)
+            new SqlParameter("@RoundId", roundId)
+                });
+
+            foreach (DataRow r in dt.Rows)
             {
-                TempData["Message"] = ex.Message;
-                TempData["MessageType"] = "error";
+                list.Add(new RoundViewVM
+                {
+                    TableName = r["TableName"].ToString(),
+                    SeatNumber = r["SeatNumber"].ToString(),
+                    UserName = r["UserName"].ToString(),
+                    Type = r["Type"].ToString()
+                });
             }
 
             return View(list);
@@ -70,28 +76,20 @@ namespace BniSittingManager.Areas.Admin.Controllers
         // ================= ALL ROUNDS REPORT =================
         public async Task<IActionResult> AllRoundsReport()
         {
-            var list = new List<dynamic>();
+            var list = new List<AllRoundsReportVM>();
 
-            try
+            var dt = await _dbLayer.ExecuteSPAsync("sp_GetAllRoundsSeating", new SqlParameter[] { });
+
+            foreach (DataRow r in dt.Rows)
             {
-                var dt = await _dbLayer.ExecuteSPAsync("sp_GetAllRoundsSeating", new SqlParameter[] { });
-
-                foreach (DataRow r in dt.Rows)
+                list.Add(new AllRoundsReportVM
                 {
-                    list.Add(new
-                    {
-                        RoundName = r["RoundName"].ToString(),
-                        TableName = r["TableName"].ToString(),
-                        SeatNumber = r["SeatNumber"].ToString(),
-                        UserName = r["Name"].ToString(),
-                        Type = r["Type"].ToString()
-                    });
-                }
-            }
-            catch (Exception ex)
-            {
-                TempData["Message"] = ex.Message;
-                TempData["MessageType"] = "error";
+                    RoundName = r["RoundName"].ToString(),
+                    TableName = r["TableName"].ToString(),
+                    SeatNumber = r["SeatNumber"].ToString(),
+                    UserName = r["Name"].ToString(),
+                    Type = r["Type"].ToString()
+                });
             }
 
             return View(list);

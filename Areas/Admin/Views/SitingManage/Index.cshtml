@@ -2,39 +2,66 @@
     ViewData["Title"] = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
+<section class="content-header">
+    <h1>Appointment Report</h1>
+    <ol class="breadcrumb">
+        <li><a href="/Admin/Dashboard"><i class="fa fa-home"></i> Home</a></li>
+        <li class="active">Appointment Report</li>
+    </ol>
+</section>
+<section class="content">
+    <div class="box"> 
 
-<h2>BNI Sitting Manager Dashboard</h2>
+        <!-- ================= LOADER ================= -->
+        <div id="loader" style="display:none;">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Generating...</span>
+            </div>
+            <p>Generating 6 Rounds... Please wait</p>
+        </div>
 
- 
+        <hr />
 
-<!-- ================= GENERATE BUTTON ================= -->
-<form method="post" asp-action="GenerateRounds">
-    <button type="submit" class="btn btn-success btn-lg">
-        🚀 Generate All 6 Rounds (One Click)
-    </button>
-</form>
+        <!-- ================= GENERATE BUTTON ================= -->
+        <form method="post" asp-action="GenerateRounds" id="generateForm">
+            <button type="submit" id="generateBtn" class="btn btn-success btn-lg">
+                🚀 Generate All 6 Rounds (One Click)
+            </button>
+        </form>
 
-<hr />
+        <hr />
 
-<!-- ================= QUICK NAVIGATION ================= -->
-<h4>Quick Navigation</h4>
+        <h4>Quick Navigation</h4>
 
-<a class="btn btn-primary" href="/Admin/SitingManage/RoundView?roundId=1">Round 1</a>
-<a class="btn btn-primary" href="/Admin/SitingManage/RoundView?roundId=2">Round 2</a>
-<a class="btn btn-primary" href="/Admin/SitingManage/RoundView?roundId=3">Round 3</a>
-<a class="btn btn-primary" href="/Admin/SitingManage/RoundView?roundId=4">Round 4</a>
-<a class="btn btn-primary" href="/Admin/SitingManage/RoundView?roundId=5">Round 5</a>
-<a class="btn btn-primary" href="/Admin/SitingManage/RoundView?roundId=6">Round 6</a>
+        <a class="btn btn-primary" href="/Admin/SitingManage/RoundView?roundId=1">Round 1</a>
+        <a class="btn btn-primary" href="/Admin/SitingManage/RoundView?roundId=2">Round 2</a>
+        <a class="btn btn-primary" href="/Admin/SitingManage/RoundView?roundId=3">Round 3</a>
+        <a class="btn btn-primary" href="/Admin/SitingManage/RoundView?roundId=4">Round 4</a>
+        <a class="btn btn-primary" href="/Admin/SitingManage/RoundView?roundId=5">Round 5</a>
+        <a class="btn btn-primary" href="/Admin/SitingManage/RoundView?roundId=6">Round 6</a>
 
-<hr />
+        <hr />
 
-<!-- ================= REPORT ACTIONS ================= -->
-<h4>Reports</h4>
+        <h4>Reports</h4>
 
-<a class="btn btn-warning" href="/Admin/SitingManage/AllRoundsReport">
-    📊 View Full Report
-</a>
+        <a class="btn btn-warning" href="/Admin/SitingManage/AllRoundsReport">
+            📊 View Full Report
+        </a>
 
-<a class="btn btn-danger" href="/Admin/SitingManage/ExportExcel">
-    📥 Export Excel
-</a>
+        <a class="btn btn-danger" href="/Admin/SitingManage/ExportExcel">
+            📥 Export Excel
+        </a>
+    </div>
+</section>
+<!-- ================= SCRIPT ================= -->
+<script>
+    document.getElementById("generateForm").addEventListener("submit", function () {
+
+        // Show loader
+        document.getElementById("loader").style.display = "block";
+
+        // Disable button
+        document.getElementById("generateBtn").disabled = true;
+        document.getElementById("generateBtn").innerText = "Generating... Please wait";
+    });
+</script>

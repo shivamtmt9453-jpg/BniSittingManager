@@ -22,14 +22,16 @@ namespace BniSittingManager.Data
             using SqlCommand cmd = new SqlCommand(spName, con);
 
             cmd.CommandType = CommandType.StoredProcedure;
+
             if (parameters != null)
                 cmd.Parameters.AddRange(parameters);
 
             await con.OpenAsync();
 
-            using SqlDataAdapter da = new SqlDataAdapter(cmd);
+            using SqlDataReader reader = await cmd.ExecuteReaderAsync();
+
             DataTable dt = new DataTable();
-            da.Fill(dt);
+            dt.Load(reader);
 
             return dt;
         }

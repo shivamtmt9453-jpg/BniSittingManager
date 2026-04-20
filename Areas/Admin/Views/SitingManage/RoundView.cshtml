@@ -1,4 +1,5 @@
-﻿@model List<dynamic>
+﻿@model List<BniSittingManager.Areas.Admin.Models.RoundViewVM>
+
 
 @{
     ViewData["Title"] = "Round View";
@@ -30,25 +31,16 @@
     <tbody>
         @if (Model != null && Model.Count > 0)
         {
-            foreach (var item in Model)
-            {
-                <tr>
-                    <td>@item.TableName</td>
-                    <td>@item.SeatNumber</td>
-                    <td>@item.UserName</td>
-
-                    <td>
-                        @if (item.Type == "Member")
-                        {
-                            <span class="badge bg-primary">Member</span>
-                        }
-                        else
-                        {
-                            <span class="badge bg-success">Visitor</span>
-                        }
-                    </td>
-                </tr>
-            }
+          
+@foreach (var item in Model)
+{
+    <tr>
+        <td>@item.TableName</td>
+        <td>@item.SeatNumber</td>
+        <td>@item.UserName</td>
+        <td>@item.Type</td>
+    </tr>
+}
         }
         else
         {

@@ -1,4 +1,4 @@
-﻿@model List<dynamic>
+﻿@model List<BniSittingManager.Areas.Admin.Models.AllRoundsReportVM>
 
 @{
     ViewData["Title"] = "All Rounds Report";
@@ -6,15 +6,13 @@
 }
 
 <h2>All Rounds Seating Report</h2>
- 
+
 <hr />
 
-<!-- ================= EXPORT BUTTON ================= -->
 <a class="btn btn-success mb-3" href="/Admin/SitingManage/ExportExcel">
     📥 Export Excel Report
 </a>
 
-<!-- ================= TABLE ================= -->
 <table class="table table-bordered table-striped">
     <thead class="thead-dark">
         <tr>
