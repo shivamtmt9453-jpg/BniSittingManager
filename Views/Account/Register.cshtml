@@ -1,0 +1,159 @@
+﻿@model BniSittingManager.Models.RegisterViewModel
+@{
+    ViewData["Title"] = "Register";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>Manas Group | Register</title>
+
+    <link rel="stylesheet" href="~/adminassets/plugins/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/adminassets/css/main.css" />
+    <link rel="stylesheet" href="~/adminassets/css/authentication.css" />
+    <link rel="stylesheet" href="~/adminassets/css/color_skins.css" />
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+</head>
+
+<body class="theme-blue authentication sidebar-collapse">
+
+    <div class="page-header">
+
+        <div class="page-header-image"
+             style="background-image: url(/adminassets/images/image-gallery/7.jpg)">
+        </div>
+
+        <div class="container">
+
+            <div class="col-md-12 content-center">
+
+                <div class="card-plain">
+
+                    <div class="header">
+
+                        <div class="logo-container">
+                            <img src="/adminassets/images/Finalimage1.png" />
+                        </div>
+
+                    </div>
+
+                    <div class="content">
+
+                        <form method="post" asp-controller="Account" asp-action="Register">
+
+                            <!-- User Name -->
+                            <div class="input-group">
+
+                                <input asp-for="UserName"
+                                       class="form-control"
+                                       placeholder="Enter User Name" />
+
+                                <span class="input-group-addon">
+                                    <i class="zmdi zmdi-account-circle"></i>
+                                </span>
+
+                            </div>
+
+                            <!-- Password -->
+                            <div class="input-group">
+
+                                <input asp-for="Password"
+                                       type="password"
+                                       class="form-control"
+                                       placeholder="Enter Password" />
+
+                                <span class="input-group-addon">
+                                    <i class="zmdi zmdi-lock"></i>
+                                </span>
+
+                            </div>
+
+                            <!-- User Type -->
+                            <div class="input-group">
+
+                                <select asp-for="UserType" class="form-control">
+
+                                    <option value="">Select User Type</option>
+                                    <option value="Admin">Admin</option>
+                                    <option value="Doctor">Doctor</option>
+                                    <option value="Nurse">Nurse</option>
+
+                                </select>
+
+                            </div>
+
+                            <!-- Reference Type -->
+                            <div class="input-group">
+
+                                <select asp-for="ReferenceType" class="form-control">
+
+                                    <option value="">Select Reference Type</option>
+                                    <option value="Doctor">Doctor</option>
+                                    <option value="Nurse">Nurse</option>
+
+                                </select>
+
+                            </div>
+
+                            <!-- DoctorId -->
+                            <div class="input-group">
+
+                                <input asp-for="DoctorId"
+                                       class="form-control"
+                                       placeholder="Doctor Id (Optional)" />
+
+                            </div>
+
+                            <!-- NurseId -->
+                            <div class="input-group">
+
+                                <input asp-for="NurseId"
+                                       class="form-control"
+                                       placeholder="Nurse Id (Optional)" />
+
+                            </div>
+
+                            <div class="footer text-center">
+
+                                <button type="submit"
+                                        class="btn btn-primary btn-round btn-lg btn-block">
+
+                                    Register
+
+                                </button>
+
+                                <h5>
+                                    <a asp-controller="Account"
+                                       asp-action="Login"
+                                       class="link">
+
+                                        Already have account? Login
+
+                                    </a>
+                                </h5>
+
+                            </div>
+
+                        </form>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>
