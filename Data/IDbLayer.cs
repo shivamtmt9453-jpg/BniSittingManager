@@ -13,6 +13,6 @@ namespace BniSittingManager.Data
         // Execute scalar query (like SELECT MAX)
         Task<object> ExecuteScalarAsync(string query, SqlParameter[] parameters = null);
         Task<DataSet> ExecuteSPWithMultipleResultsAsync(string spName, SqlParameter[] parameters = null);
-
+        byte[] ExportToExcel(DataTable dt, string sheetName);
     }
 }

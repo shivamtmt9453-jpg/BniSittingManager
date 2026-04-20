@@ -128,10 +128,10 @@
 
         </header>
         <aside class="main-sidebar">
-            <section class="sidebar">
+            <section class="sidebar"> 
                 <div class="user-panel">
                     <div class="adminlogo">
-                        <a href="/admin/Dashboard/index"><img src="~/assets/img/png-2026BNI Evolve-logos/logo.png" /></a>
+                        <a href="/admin/Dashboard/index"><img src="/adminassets/img/Finalimage1.png" /></a>
                     </div>
                 </div>
 
@@ -157,18 +157,10 @@
                              </ul> 
                         </li>
 
-                    <li class="treeview">
-                        <a href="#">
-                            <i class="fa fa-list"></i> <span>Generate Sitting</span>
-                            <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
-                        </a>
 
-                        <ul class="treeview-menu">
-                            <li><a href="/admin/SitingManage/Index"><i class="fa fa-user-graduate"></i> <span>Graduate Program</span></a></li>
-                            
-                        </ul>
-                    </li>
+                    <li><a href="/Admin/SitingManage/Index"><i class="fa fa-key"></i> <span>Genrate Sitting</span></a></li>
                     <!-- Common Option for All Roles -->
+                   
                    @*  <li><a href="/admin/Dashboard/ChangePassword"><i class="fa fa-key"></i> <span>Change Password</span></a></li> *@
                 </ul>
             </section>
@@ -253,99 +245,103 @@
 
             toastr["@TempData["MessageType"]"]("@TempData["Message"]");
         </script>
-    } 
+    }
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
 
-            $('table').each(function() {
+            $('table').each(function () {
+
                 var table = $(this);
                 var rows = table.find('tbody tr');
                 var rowsCount = rows.length;
-                var defaultRowsPerPage = parseInt($('#pageSizeSelect').val()) || 20;
-                var rowsPerPage = defaultRowsPerPage;
+                var rowsPerPage = parseInt($('#pageSizeSelect').val()) || 20;
                 var pageCount = Math.ceil(rowsCount / rowsPerPage);
                 var currentPage = 1;
 
-                // Create pagination container only if needed
-                var pagination = $('<div class="table-pagination mt-2"></div>');
+                var pagination = $('<div class="table-pagination mt-3 text-center"></div>');
                 if (pageCount > 1) {
                     table.after(pagination);
                 }
 
-                     function showPage(page) {
-            rows.hide();
-            var start = (page - 1) * rowsPerPage;
-            var end = start + rowsPerPage;
-            rows.slice(start, end).show();
+                function showPage(page) {
+                    rows.hide();
 
-            if (pageCount > 1) {
-                pagination.html('');
+                    var start = (page - 1) * rowsPerPage;
+                    var end = start + rowsPerPage;
+                    rows.slice(start, end).show();
 
-                var maxVisible = 5;
-                var startPage = Math.floor((page - 1) / maxVisible) * maxVisible + 1;
-                var endPage = Math.min(startPage + maxVisible - 1, pageCount);
+                    pagination.html('');
 
-                // Prev button
-                if (startPage > 1) {
-                    pagination.append('<button class="prev-btn btn btn-sm btn-default">Prev</button>');
+                    if (pageCount <= 1) return;
+
+                    var maxVisible = 5;
+                    var startPage = Math.floor((page - 1) / maxVisible) * maxVisible + 1;
+                    var endPage = Math.min(startPage + maxVisible - 1, pageCount);
+
+                    // Prev
+                    if (startPage > 1) {
+                        pagination.append('<button class="prev-btn btn btn-sm btn-secondary mx-1">« Prev</button>');
+                    }
+
+                    // Page Numbers
+                    for (var i = startPage; i <= endPage; i++) {
+                        pagination.append(
+                            '<button class="page-btn btn btn-sm mx-1 ' +
+                            (i === page ? 'btn-primary' : 'btn-light') +
+                            '">' + i + '</button>'
+                        );
+                    }
+
+                    // Next
+                    if (endPage < pageCount) {
+                        pagination.append('<button class="next-btn btn btn-sm btn-secondary mx-1">Next »</button>');
+                    }
                 }
 
-                // Page numbers
-                for (var i = startPage; i <= endPage; i++) {
-                    pagination.append(
-                        '<button class="page-btn btn btn-sm ' +
-                        (i === page ? 'btn-primary' : 'btn-default') + '">' + i + '</button>'
-                    );
-                }
+                // Initial Load
+                showPage(currentPage);
 
-                // Next button
-                if (endPage < pageCount) {
-                    pagination.append('<button class="next-btn btn btn-sm btn-default">Next</button>');
-                }
-            } else {
-                pagination.empty();
-            }
-        }
-
-                // Initial display
-                showPage(1);
-
-                // Pagination button click
-                pagination.on('click', '.page-btn', function() {
+                // Page Click
+                pagination.on('click', '.page-btn', function () {
                     currentPage = parseInt($(this).text());
                     showPage(currentPage);
                 });
 
-                // Handle page size change
-                $('#pageSizeSelect').on('change', function() {
+                // ✅ FIXED Next
+                pagination.on('click', '.next-btn', function () {
+                    if (currentPage < pageCount) {
+                        currentPage++;
+                        showPage(currentPage);
+                    }
+                });
+
+                // ✅ FIXED Prev
+                pagination.on('click', '.prev-btn', function () {
+                    if (currentPage > 1) {
+                        currentPage--;
+                        showPage(currentPage);
+                    }
+                });
+
+                // Page Size Change
+                $('#pageSizeSelect').on('change', function () {
                     rowsPerPage = parseInt($(this).val());
                     pageCount = Math.ceil(rowsCount / rowsPerPage);
                     currentPage = 1;
 
-                    // Only show pagination if more than one page
-                    if (pageCount > 1 && pagination.parent().length === 0) {
+                    if (pageCount > 1) {
                         table.after(pagination);
-                    } else if (pageCount <= 1) {
+                    } else {
                         pagination.empty();
                     }
 
                     showPage(currentPage);
                 });
+
             });
 
         });
-                // Next button
-        pagination.on('click', '.next-btn', function() {
-            currentPage = currentPage + 1;
-            showPage(currentPage);
-        });
-
-        // Prev button
-        pagination.on('click', '.prev-btn', function() {
-            currentPage = currentPage - 1;
-            showPage(currentPage);
-        });
-    </script> 
+    </script>
     @await RenderSectionAsync("Scripts", required: false)
 
 </body>
