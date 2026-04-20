@@ -1,0 +1,61 @@
+﻿@model List<dynamic>
+
+@{
+    ViewData["Title"] = "All Rounds Report";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<h2>All Rounds Seating Report</h2>
+ 
+<hr />
+
+<!-- ================= EXPORT BUTTON ================= -->
+<a class="btn btn-success mb-3" href="/Admin/SitingManage/ExportExcel">
+    📥 Export Excel Report
+</a>
+
+<!-- ================= TABLE ================= -->
+<table class="table table-bordered table-striped">
+    <thead class="thead-dark">
+        <tr>
+            <th>Round</th>
+            <th>Table</th>
+            <th>Seat No</th>
+            <th>User Name</th>
+            <th>Type</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @if (Model != null && Model.Count > 0)
+        {
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.RoundName</td>
+                    <td>@item.TableName</td>
+                    <td>@item.SeatNumber</td>
+                    <td>@item.UserName</td>
+                    <td>
+                        @if (item.Type == "Member")
+                        {
+                            <span class="badge bg-primary">Member</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-success">Visitor</span>
+                        }
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="5" class="text-center text-danger">
+                    No Data Found
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
