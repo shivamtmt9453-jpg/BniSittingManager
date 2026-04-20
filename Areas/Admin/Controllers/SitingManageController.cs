@@ -66,7 +66,9 @@ namespace BniSittingManager.Areas.Admin.Controllers
                     TableName = r["TableName"].ToString(),
                     SeatNumber = r["SeatNumber"].ToString(),
                     UserName = r["UserName"].ToString(),
-                    Type = r["Type"].ToString()
+                    Type = r["Type"].ToString(),
+                    SeatName = r["SeatName"].ToString(),
+                    MemberId = r["BniMemberId"].ToString()
                 });
             }
 
@@ -88,7 +90,9 @@ namespace BniSittingManager.Areas.Admin.Controllers
                     TableName = r["TableName"].ToString(),
                     SeatNumber = r["SeatNumber"].ToString(),
                     UserName = r["Name"].ToString(),
-                    Type = r["Type"].ToString()
+                    Type = r["Type"].ToString(),
+                    SeatName = r["SeatName"].ToString(),
+                    MemberId = r["BniMemberId"].ToString()
                 });
             }
 
@@ -96,28 +100,28 @@ namespace BniSittingManager.Areas.Admin.Controllers
         }
 
         // ================= EXPORT EXCEL =================
-        //public async Task<IActionResult> ExportExcel()
-        //{
-        //    try
-        //    {
-        //        var dt = await _dbLayer.ExecuteSPAsync("sp_GetAllRoundsSeating", new SqlParameter[] { });
+        public async Task<IActionResult> ExportExcel()
+        {
+            try
+            {
+                var dt = await _dbLayer.ExecuteSPAsync("sp_GetAllRoundspdfSeating", new SqlParameter[] { });
 
-        //        var file = _dbLayer.ExportToExcel(dt, "BNI_Seating_Report.xlsx");
+                var file = _dbLayer.ExportToExcel(dt, "BNI_Seating_Report.xlsx");
 
-        //        TempData["Message"] = "Excel Exported Successfully!";
-        //        TempData["MessageType"] = "success";
+                TempData["Message"] = "Excel Exported Successfully!";
+                TempData["MessageType"] = "success";
 
-        //        return File(file,
-        //            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-        //            "BNI_Seating_Report.xlsx");
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        TempData["Message"] = ex.Message;
-        //        TempData["MessageType"] = "error";
-        //        return RedirectToAction("Index");
-        //    }
-        //}
+                return File(file,
+                    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                    "BNI_Seating_Report.xlsx");
+            }
+            catch (Exception ex)
+            {
+                TempData["Message"] = ex.Message;
+                TempData["MessageType"] = "error";
+               return RedirectToAction("Index");
+           }
+        }
 
 
 

@@ -4,56 +4,78 @@
     ViewData["Title"] = "All Rounds Report";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
+<section class="content-header">
+    <h1>All Rounds Seating Report</h1>
+    <ol class="breadcrumb">
+        <li><a href="/Admin/Dashboard"><i class="fa fa-home"></i> Home</a></li>
+        <li class="active">All Rounds Seating Report</li>
+    </ol>
+</section>
+<section class="content">
+    <div class="box">
 
-<h2>All Rounds Seating Report</h2>
-
-<hr />
-
-<a class="btn btn-success mb-3" href="/Admin/SitingManage/ExportExcel">
-    📥 Export Excel Report
-</a>
-
-<table class="table table-bordered table-striped">
-    <thead class="thead-dark">
-        <tr>
-            <th>Round</th>
-            <th>Table</th>
-            <th>Seat No</th>
-            <th>User Name</th>
-            <th>Type</th>
-        </tr>
-    </thead>
-
-    <tbody>
-        @if (Model != null && Model.Count > 0)
-        {
-            foreach (var item in Model)
-            {
+        <div class="pull-left">
+            <a class="btn btn-success mb-3" href="/Admin/SitingManage/ExportExcel">
+                📥 Export Excel Report
+            </a>
+            <div class="mb-2">
+                <select id="pageSizeSelect" class="form-control input-sm" style="width:100px; display:inline-block;">
+                    <option value="20">20</option>
+                    <option value="30">30</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                </select>
+            </div>
+        </div>
+        <table class="table table-bordered table-striped paginated-table">
+            <thead class="thead-dark">
                 <tr>
-                    <td>@item.RoundName</td>
-                    <td>@item.TableName</td>
-                    <td>@item.SeatNumber</td>
-                    <td>@item.UserName</td>
-                    <td>
-                        @if (item.Type == "Member")
-                        {
-                            <span class="badge bg-primary">Member</span>
-                        }
-                        else
-                        {
-                            <span class="badge bg-success">Visitor</span>
-                        }
-                    </td>
+                    <th>Sr. No.</th>
+                    <th>Round</th>
+                    <th>Table</th>
+                    <th>Seat No</th>
+                    <th>User Name</th>
+                    <th>User Id</th>
+                    <th>Type</th>
                 </tr>
-            }
-        }
-        else
-        {
-            <tr>
-                <td colspan="5" class="text-center text-danger">
-                    No Data Found
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+            </thead>
+
+            <tbody>
+                @if (Model != null && Model.Count > 0)
+                {
+                    int srNo = 1;
+                    foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@srNo</td>
+                            <td>@item.RoundName</td>
+                            <td>@item.TableName</td>
+                            <td>@item.SeatName</td>
+                            <td>@item.UserName</td>
+                            <td>@item.MemberId</td>
+                            <td>
+                                @if (item.Type == "Member")
+                                {
+                                    <span class="badge bg-primary">Member</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-success">Visitor</span>
+                                }
+                            </td>
+                        </tr>
+                        srNo++;
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="5" class="text-center text-danger">
+                            No Data Found
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</section>

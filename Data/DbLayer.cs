@@ -1,7 +1,11 @@
 ﻿using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Configuration;
+using OfficeOpenXml;
+using System.ComponentModel;
 using System.Data;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
+using OfficeOpenXml;
+using System.IO;
 
 namespace BniSittingManager.Data
 {
@@ -67,6 +71,33 @@ namespace BniSittingManager.Data
 
             return ds;
         }
+        public byte[] ExportToExcel(DataTable dt, string sheetName)
+        {
+            // EPPlus 8+ license setup
+            ExcelPackage.License.SetNonCommercialOrganization("BniSittingManager");
+
+            using var package = new ExcelPackage();
+            var ws = package.Workbook.Worksheets.Add(sheetName);
+
+            // headers
+            for (int i = 0; i < dt.Columns.Count; i++)
+            {
+                ws.Cells[1, i + 1].Value = dt.Columns[i].ColumnName;
+            }
+
+            // data
+            for (int r = 0; r < dt.Rows.Count; r++)
+            {
+                for (int c = 0; c < dt.Columns.Count; c++)
+                {
+                    ws.Cells[r + 2, c + 1].Value = dt.Rows[r][c];
+                }
+            }
+
+            return package.GetAsByteArray();
+        }
+
+
 
     }
 }
