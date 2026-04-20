@@ -30,14 +30,12 @@ namespace BniSittingManager.Areas.Admin.Controllers
         {
             try
             {
-                _ = Task.Run(async () =>
-                {
-                    await _dbLayer.ExecuteSPAsync(
-                        "sp_GenerateSixRoundsSeating",
-                        new SqlParameter[] { });
-                });
+                await _dbLayer.ExecuteSPAsyncgenerate(
+     "sp_GenerateSixRoundsSeating",
+     null
+ );
 
-                TempData["Message"] = "6 Rounds generation started in background!";
+                TempData["Message"] = "All 6 Rounds generated successfully!";
                 TempData["MessageType"] = "success";
             }
             catch (Exception ex)
@@ -48,6 +46,7 @@ namespace BniSittingManager.Areas.Admin.Controllers
 
             return RedirectToAction("Index");
         }
+
         // ================= ROUND WISE VIEW =================
         public async Task<IActionResult> RoundView(int roundId)
         {

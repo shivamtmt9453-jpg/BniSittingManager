@@ -19,6 +19,21 @@ namespace BniSittingManager.Data
             _configuration = configuration;
             _connectionString = _configuration.GetConnectionString("DefaultConnection");
         }
+        public async Task<int> ExecuteSPAsyncgenerate(string spName, SqlParameter[] parameters)
+        {
+            using SqlConnection con = new SqlConnection(_connectionString);
+            using SqlCommand cmd = new SqlCommand(spName, con);
+
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.CommandTimeout = 300;
+
+            if (parameters != null)
+                cmd.Parameters.AddRange(parameters);
+
+            await con.OpenAsync();
+
+            return await cmd.ExecuteNonQueryAsync();
+        }
 
         public async Task<DataTable> ExecuteSPAsync(string spName, SqlParameter[] parameters)
         {
