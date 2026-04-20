@@ -1,9 +1,10 @@
-﻿using BniSittingManager.Data;
+﻿using BniSittingManager.Areas.Admin.Controllers;
+using BniSittingManager.Data;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BniSittingManager.Controllers
 {
-    public class RegisterController : Controller
+    public class RegisterController : BaseController
     {
         private readonly IDbLayer _dbLayer;
 
