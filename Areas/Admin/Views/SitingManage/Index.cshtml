@@ -1,0 +1,40 @@
+﻿@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<h2>BNI Sitting Manager Dashboard</h2>
+
+ 
+
+<!-- ================= GENERATE BUTTON ================= -->
+<form method="post" asp-action="GenerateRounds">
+    <button type="submit" class="btn btn-success btn-lg">
+        🚀 Generate All 6 Rounds (One Click)
+    </button>
+</form>
+
+<hr />
+
+<!-- ================= QUICK NAVIGATION ================= -->
+<h4>Quick Navigation</h4>
+
+<a class="btn btn-primary" href="/Admin/SitingManage/RoundView?roundId=1">Round 1</a>
+<a class="btn btn-primary" href="/Admin/SitingManage/RoundView?roundId=2">Round 2</a>
+<a class="btn btn-primary" href="/Admin/SitingManage/RoundView?roundId=3">Round 3</a>
+<a class="btn btn-primary" href="/Admin/SitingManage/RoundView?roundId=4">Round 4</a>
+<a class="btn btn-primary" href="/Admin/SitingManage/RoundView?roundId=5">Round 5</a>
+<a class="btn btn-primary" href="/Admin/SitingManage/RoundView?roundId=6">Round 6</a>
+
+<hr />
+
+<!-- ================= REPORT ACTIONS ================= -->
+<h4>Reports</h4>
+
+<a class="btn btn-warning" href="/Admin/SitingManage/AllRoundsReport">
+    📊 View Full Report
+</a>
+
+<a class="btn btn-danger" href="/Admin/SitingManage/ExportExcel">
+    📥 Export Excel
+</a>
