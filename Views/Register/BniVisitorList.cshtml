@@ -6,7 +6,6 @@
 }
 
 
-
 <section class="content">
     <div class="box">
 
@@ -16,8 +15,8 @@
             <!-- LEFT BUTTONS -->
             <div class="pull-left">
                 <a class="btn btn-danger btn-flat"
-                   href="@Url.Action("BniMember", "Register")">
-                    <i class="fa fa-plus"></i> Add BNI Member
+                   href="@Url.Action("BniVisitor", "Register", new { area = "Admin" })">
+                    <i class="fa fa-plus"></i> Add User
                 </a>
 
                 <form method="post"
@@ -132,7 +131,6 @@
 
                         </tr>
                     }
-            
                 </tbody>
 
             </table>

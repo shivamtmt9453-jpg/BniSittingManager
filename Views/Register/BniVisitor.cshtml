@@ -1,3 +1,110 @@
-﻿ 
+﻿@model BniSittingManager.Models.BniUsers
+
 @{
+    ViewData["Title"] = "BNI Visitor Management";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
+
+<section class="content-header">
+    <h1>BNI User Form</h1>
+    <ol class="breadcrumb">
+        <li><a href="Dashboard"><i class="fa fa-home"></i> Home</a></li>
+        <li class="active">BNI Visitor User</li>
+    </ol>
+</section>
+
+<section class="content">
+    <div class="card">
+        <div class="container-fluid" style="background-color:white; padding:20px;">
+
+            <form asp-action="BniVisitor" method="post">
+
+                <input type="hidden" asp-for="UserId" />
+
+                <div class="row g-3">
+
+                    <!-- BNI Member ID -->
+                    <div class="col-md-3">
+                        <label class="form-label">Visitor Member ID*</label>
+                        <input asp-for="BniMemberId" class="form-control" readonly />
+                        <span asp-validation-for="BniMemberId" class="text-danger"></span>
+                    </div>
+
+                    <!-- Name -->
+                    <div class="col-md-3">
+                        <label class="form-label">Name*</label>
+                        <input asp-for="Name" class="form-control" required placeholder="Enter Name" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+
+                    <!-- Email -->
+                    <div class="col-md-3">
+                        <label class="form-label">Email*</label>
+                        <input asp-for="Email" type="email" class="form-control" required placeholder="Enter Email" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+
+                    <!-- Phone -->
+                    <div class="col-md-3">
+                        <label class="form-label">Phone*</label>
+                        <input asp-for="Phone" type="text"
+                               class="form-control"
+                               maxlength="10"
+                               placeholder="Enter 10 digit number"
+                               oninput="validatePhone(this)" required />
+                        <span id="phoneError" class="text-danger" style="display:none">
+                            Phone must be 10 digits
+                        </span>
+                        <span asp-validation-for="Phone" class="text-danger"></span>
+                    </div>
+
+                    <!-- Company -->
+                    <div class="col-md-3">
+                        <label class="form-label">Company Name</label>
+                        <input asp-for="CompanyName" class="form-control" placeholder="Enter Company Name" />
+                        <span asp-validation-for="CompanyName" class="text-danger"></span>
+                    </div>
+
+                    <!-- Type -->
+                    <div class="col-md-3">
+                        <label class="form-label">User Type</label>
+                        <input asp-for="Type" class="form-control" value="BNI Visitor" readonly />
+                        <span asp-validation-for="Type" class="text-danger"></span>
+                    </div>
+
+                    <!-- Created Date -->
+                    <div class="col-md-3">
+                        <label class="form-label">Created Date</label>
+                        <input asp-for="CreatedAt" type="datetime-local"
+                               class="form-control"
+                               value="@Model?.CreatedAt.ToString("yyyy-MM-ddTHH:mm")" />
+                    </div>
+
+                </div>
+
+                <!-- Buttons -->
+                <div class="row">
+                    <div class="col-md-12 text-center" style="margin-top: 30px;">
+                        <button type="submit" class="btn btn-success px-4">Save</button>
+                        <a href="/Admin/BniUser/Index" class="btn btn-primary px-4">Reset</a>
+                    </div>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</section>
+
+<script>
+    function validatePhone(input) {
+        let value = input.value;
+        let error = document.getElementById("phoneError");
+
+        if (value.length !== 10) {
+            error.style.display = "block";
+        } else {
+            error.style.display = "none";
+        }
+    }
+</script>

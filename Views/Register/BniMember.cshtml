@@ -17,7 +17,7 @@
     <div class="card">
         <div class="container-fluid" style="background-color:white; padding:20px;">
 
-            <form asp-action="SaveBniUser" method="post">
+            <form asp-action="BniMember" method="post">
 
                 <input type="hidden" asp-for="UserId" />
 
@@ -26,7 +26,7 @@
                     <!-- BNI Member ID -->
                     <div class="col-md-3">
                         <label class="form-label">BNI Member ID*</label>
-                        <input asp-for="BniMemberId" class="form-control" required placeholder="Enter Member ID" />
+                        <input asp-for="BniMemberId" class="form-control" readonly />
                         <span asp-validation-for="BniMemberId" class="text-danger"></span>
                     </div>
 
@@ -68,12 +68,7 @@
                     <!-- Type -->
                     <div class="col-md-3">
                         <label class="form-label">User Type</label>
-                        <select asp-for="Type" class="form-control">
-                            <option value="">-- Select --</option>
-                            <option>Admin</option>
-                            <option>Member</option>
-                            <option>Guest</option>
-                        </select>
+                        <input asp-for="Type" class="form-control" value="BNI Member" readonly />
                         <span asp-validation-for="Type" class="text-danger"></span>
                     </div>
 
