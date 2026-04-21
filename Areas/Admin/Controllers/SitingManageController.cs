@@ -37,7 +37,7 @@ namespace BniSittingManager.Areas.Admin.Controllers
 
                 TempData["Message"] = "All 6 Rounds generated successfully!";
                 TempData["MessageType"] = "success";
-            }
+            } 
             catch (Exception ex)
             {
                 TempData["Message"] = ex.Message;
