@@ -1,34 +1,45 @@
 ﻿@model BniSittingManager.Models.BniUsers
 
 @{
-    ViewData["Title"] = "BNI Visitor Management";
-    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Visitor Registration";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<section class="content-header">
-    <h1>BNI User Form</h1>
-    <ol class="breadcrumb">
-        <li><a href="Dashboard"><i class="fa fa-home"></i> Home</a></li>
-        <li class="active">BNI Visitor User</li>
-    </ol>
-</section>
+<!-- Hero Start -->
+<div class="section exvent-hero-section d-lg-flex d-block align-items-center inner-page-hero" style="background-image: url(assets/images/bg/about_page_bg.jpg);">
+    <img class="shape-1 img-fluid" src="~/assets/images/shape/hero_shape1.png" alt="">
+    <img class="shape-2 img-fluid" src="~/assets/images/shape/hero_shape2.png" alt="">
 
-<section class="content">
-    <div class="card">
-        <div class="container-fluid" style="background-color:white; padding:20px;">
+    <div class="container">
+        <div class="row exvent-hero-row justify-content-center">
+            <div class="col-lg-8 text-center" style="margin-top:120px;">
+                <div class="page-title">
+                    <h2 class="section-title">Visitor Registration</h2>
+                </div>
+                <div class="page-navigation">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb justify-content-center">
+                            <li class="breadcrumb-item"><a href="/">Home</a></li>
+                            <li class="breadcrumb-item"><a href="#">Visitor Registration</a></li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
+<!-- Contact Page Start -->
+<div class="contact-form-section section-padding-02">
+    <div class="container">
+        <!-- Contact Form Start -->
+        <div class="contact-form-wrap">
             <form asp-action="BniVisitor" method="post">
-
+                 
                 <input type="hidden" asp-for="UserId" />
-
-                <div class="row g-3">
-
-                    <!-- BNI Member ID -->
-                    <div class="col-md-3">
-                        <label class="form-label">Visitor Member ID*</label>
-                        <input asp-for="BniMemberId" class="form-control" readonly />
-                        <span asp-validation-for="BniMemberId" class="text-danger"></span>
-                    </div>
+                <input asp-for="BniMemberId" class="form-control" readonly type="hidden" />
+                <div class="row g-4 justify-content-center">
+ 
 
                     <!-- Name -->
                     <div class="col-md-3">
@@ -64,29 +75,14 @@
                         <input asp-for="CompanyName" class="form-control" placeholder="Enter Company Name" />
                         <span asp-validation-for="CompanyName" class="text-danger"></span>
                     </div>
-
-                    <!-- Type -->
-                    <div class="col-md-3">
-                        <label class="form-label">User Type</label>
-                        <input asp-for="Type" class="form-control" value="BNI Visitor" readonly />
-                        <span asp-validation-for="Type" class="text-danger"></span>
-                    </div>
-
-                    <!-- Created Date -->
-                    <div class="col-md-3">
-                        <label class="form-label">Created Date</label>
-                        <input asp-for="CreatedAt" type="datetime-local"
-                               class="form-control"
-                               value="@Model?.CreatedAt.ToString("yyyy-MM-ddTHH:mm")" />
-                    </div>
-
+                     
                 </div>
 
                 <!-- Buttons -->
                 <div class="row">
                     <div class="col-md-12 text-center" style="margin-top: 30px;">
                         <button type="submit" class="btn btn-success px-4">Save</button>
-                        <a href="/Admin/BniUser/Index" class="btn btn-primary px-4">Reset</a>
+                        <a href="/Register/BniVisitor" class="btn btn-primary px-4">Reset</a>
                     </div>
                 </div>
 
@@ -94,7 +90,8 @@
 
         </div>
     </div>
-</section>
+    </div>
+ 
 
 <script>
     function validatePhone(input) {
