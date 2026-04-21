@@ -1,0 +1,178 @@
+﻿@model List<BniSittingManager.Models.BniUsers>
+
+@{
+    ViewData["Title"] = "BNI Visitor List";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+ 
+    <section class="content-header">
+        <h1>All Visitor List</h1>
+        <ol class="breadcrumb">
+            <li><a href="/Admin/Dashboard"><i class="fa fa-home"></i> Home</a></li>
+            <li class="active">All Visitor List</li>
+        </ol>
+    </section>
+    <section class="content">
+    <div class="box">
+
+        <!-- HEADER -->
+        <div class="box-header with-border">
+
+            <!-- LEFT BUTTONS -->
+            <div class="pull-left">
+                <a class="btn btn-danger btn-flat"
+                   href="@Url.Action("BniVisitor", "Register", new { area = "Admin" })">
+                    <i class="fa fa-plus"></i> Add User
+                </a>
+
+                <form method="post"
+                      asp-action="DeleteSelected"
+                      id="deleteForm"
+                      style="display:inline-block;">
+
+                    <div id="hiddenInputsContainer"></div>
+
+                   @*  <button type="submit"
+                            class="btn btn-primary btn-flat"
+                            style="margin-left:10px;">
+                        Delete Selected
+                    </button> *@
+                </form>
+            </div>
+
+            <!-- SEARCH -->
+            <div class="pull-right">
+                <form method="get" asp-action="BniMember" class="form-inline">
+
+                    <input type="text"
+                           name="search"
+                           value="@Context.Request.Query["search"]"
+                           class="form-control input-sm"
+                           placeholder="Search Name/Phone/Email"
+                           style="width:200px;" />
+
+                    <button type="submit" class="btn btn-primary btn-sm">
+                        Search
+                    </button>
+
+                    <a asp-action="BniMember" class="btn btn-default btn-sm">
+                        Show All
+                    </a>
+
+                </form>
+            </div>
+
+        </div>
+
+        <!-- TABLE -->
+        <div class="box-body table-responsive">
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>Sr. No.</th>
+                        <th>Member ID</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Company</th>
+                        <th>Type</th>
+                        <th>Created Date</th>
+                      @*   <th>Edit</th> *@
+                        <th>Delete</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @{
+                        int srNo = 1;
+                    }
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@srNo</td>
+
+                            <td>@item.BniMemberId</td>
+                            <td>@item.Name</td>
+                            <td>@item.Email</td>
+                            <td>@item.Phone</td>
+                            <td>@item.CompanyName</td>
+                            <td>@item.Type</td>
+
+                            <td>
+                                @item.CreatedAt.ToString("dd/MM/yyyy")
+                            </td>
+
+                            <!-- EDIT -->
+                            @*  td>
+                                <a class="btn btn-warning btn-sm"
+                                   asp-action="EditBniUser"
+                                   asp-controller="BniUser"
+                                   asp-area="Admin"
+                                   asp-route-id="@item.UserId">
+                                    <i class="fa fa-edit"></i>
+                                </a>
+                            </td> *@
+
+                            <!-- DELETE -->
+                            <td>
+                                <form method="post"
+                                      asp-action="Delete"
+                                      onsubmit="return confirm('Are you sure?')">
+
+                                    <input type="hidden"
+                                           name="id"
+                                           value="@item.UserId" />
+
+                                    <button class="btn btn-danger btn-sm">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+
+                                </form>
+                            </td>
+
+                        </tr>
+                        srNo++;
+                    }
+                </tbody>
+
+            </table>
+        </div>
+
+    </div>
+</section>
+ 
+
+@section Scripts {
+    <script>
+
+        function toggleAll(chkAll) {
+            var checkboxes = document.querySelectorAll('.chkItem');
+            checkboxes.forEach(c => c.checked = chkAll.checked);
+        }
+
+        document.getElementById('deleteForm').addEventListener('submit', function (e) {
+
+            var selected = Array.from(
+                document.querySelectorAll('.chkItem:checked')
+            ).map(c => c.value);
+
+            if (selected.length === 0) {
+                alert('Please select at least one record.');
+                e.preventDefault();
+                return;
+            }
+
+            var container = document.getElementById('hiddenInputsContainer');
+            container.innerHTML = '';
+
+            selected.forEach(function (id) {
+                var input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = 'selectedIds';
+                input.value = id;
+                container.appendChild(input);
+            });
+        });
+
+    </script>
+}
