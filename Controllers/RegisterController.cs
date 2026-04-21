@@ -69,10 +69,11 @@ namespace BniSittingManager.Controllers
                 await _dbLayer.ExecuteSPAsync("sp_BniUsers_Manage", param);
 
                 TempData["Message"] = model.UserId == 0
-                    ? "User saved successfully!"
-                    : "User updated successfully!";
+                    ? "Member saved successfully!"
+                    : "Member updated successfully!";
 
-                return RedirectToAction("BniMemberList");
+                return RedirectToAction("BniMember");
+
             }
 
 
@@ -126,10 +127,10 @@ namespace BniSittingManager.Controllers
             await _dbLayer.ExecuteSPAsync("sp_BniUsers_Manage", param);
 
             TempData["Message"] = model.UserId == 0
-                ? "User saved successfully!"
-                : "User updated successfully!";
+                ? "Visitor saved successfully!"
+                : "Visitor updated successfully!";
 
-            return RedirectToAction("BniVisitorList");
+            return RedirectToAction("BniVisitor");
         }
          
     }
