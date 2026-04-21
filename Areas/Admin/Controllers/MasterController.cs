@@ -28,7 +28,7 @@ namespace BniSittingManager.Areas.Admin.Controllers
         {
             SqlParameter[] param =
             {
-            new SqlParameter("@Action", "LIST"),
+            new SqlParameter("@Action", "MemberLIST"),
             new SqlParameter("@Search", search ?? (object)DBNull.Value)
         };
 
@@ -73,7 +73,7 @@ namespace BniSittingManager.Areas.Admin.Controllers
         {
             SqlParameter[] param =
             {
-       new SqlParameter("@Action", "LIST"),
+       new SqlParameter("@Action", "VisitorLIST"),
        new SqlParameter("@Search", search ?? (object)DBNull.Value)
    };
 
