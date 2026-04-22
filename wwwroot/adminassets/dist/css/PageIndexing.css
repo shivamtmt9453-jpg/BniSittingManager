@@ -29,11 +29,24 @@
         margin: 0 2px;
         padding: 2px 9px;
         background-color: #3c8dbc; /* active blue */
-        color: #fff;
+         color: #fff;
         border-radius: 4px;
         font-weight: bold;
     }
 .table-pagination button.page-btn {
     margin-right: 5px;
-    margin-top: 4px;
+    margin-top: 16px;
 }
+.prev-btn {
+    margin: 21px 20px 3px 5px;
+    background: #5f9ea0eb;
+    color: white;
+}
+
+.next-btn {
+    margin: 21px 20px 3px 5px;
+    background: #5fa072;
+    color: white;
+}
+
+ 
