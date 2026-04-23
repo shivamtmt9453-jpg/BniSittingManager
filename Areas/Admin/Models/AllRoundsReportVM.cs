@@ -2,12 +2,12 @@
 {
     public class AllRoundsReportVM
     {
-        public string RoundName { get; set; }
-        public string TableName { get; set; }
-        public string SeatNumber { get; set; }
-        public string UserName { get; set; }
-        public string Type { get; set; }
-        public string MemberId { get; set; }
-        public string SeatName { get; set; }
+        public string? RoundName { get; set; }
+        public string? TableName { get; set; }
+        public string? SeatNumber { get; set; }
+        public string? UserName { get; set; }
+        public string? Type { get; set; }
+        public string? MemberId { get; set; }
+        public string? SeatName { get; set; }
     }
 }

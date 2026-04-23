@@ -2,6 +2,67 @@
     ViewData["Title"] = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
+<head> 
+    <style>
+        .full-loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: rgba(0,0,0,0.5);
+            z-index: 999999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .loader-card {
+            background: #fff;
+            padding: 25px 40px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+
+        /* 🔄 Smooth rotating loader */
+        .custom-spinner {
+            width: 45px;
+            height: 45px;
+            border: 5px solid #e0e0e0;
+            border-top: 5px solid #007bff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @@keyframes spin {
+            0%
+
+        {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+
+        }
+
+        .loader-text {
+            margin-top: 12px;
+            font-size: 14px;
+            color: #444;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<div id="fullLoader" class="full-loader" style="display:none;">
+    <div class="loader-card">
+        <div class="custom-spinner"></div>
+        <p class="loader-text">Please wait, generating seating plan...</p>
+    </div>
+</div>
 <section class="content-header">
     <h1>Generate  Sitting</h1>
     <ol class="breadcrumb">
@@ -10,58 +71,63 @@
     </ol>
 </section>
 <section class="content">
-    <div class="box"> 
+    <div class="box">
 
-        <!-- ================= LOADER ================= -->
-        <div id="loader" style="display:none;">
-            <div class="spinner-border text-primary" role="status">
-                <span class="visually-hidden">Generating...</span>
-            </div>
-            <p>Generating 6 Rounds... Please wait</p>
+    
+        <hr />
+        <div class="box-body">
+            <!-- ================= GENERATE BUTTON ================= -->
+            <form method="post" asp-action="GenerateRounds" id="generateForm">
+                <button type="submit" id="generateBtn" class="btn btn-success btn-lg">
+                    🚀 Generate All 6 Rounds (One Click)
+                </button>
+            </form>
         </div>
-
         <hr />
+        <div class="box-body">
+            <div class="row">
+                <div class="col-sm-6">
+                    <h4>Quick Navigation</h4>
 
-        <!-- ================= GENERATE BUTTON ================= -->
-        <form method="post" asp-action="GenerateRounds" id="generateForm">
-            <button type="submit" id="generateBtn" class="btn btn-success btn-lg">
-                🚀 Generate All 6 Rounds (One Click)
-            </button>
-        </form>
+                    <a class="btn btn-primary" href="/Admin/SitingManage/RoundView?roundId=1">Round 1</a>
+                    <a class="btn btn-primary" href="/Admin/SitingManage/RoundView?roundId=2">Round 2</a>
+                    <a class="btn btn-primary" href="/Admin/SitingManage/RoundView?roundId=3">Round 3</a>
+                    <a class="btn btn-primary" href="/Admin/SitingManage/RoundView?roundId=4">Round 4</a>
+                    <a class="btn btn-primary" href="/Admin/SitingManage/RoundView?roundId=5">Round 5</a>
+                    <a class="btn btn-primary" href="/Admin/SitingManage/RoundView?roundId=6">Round 6</a>
+                </div>
+                <div class="col-sm-6">
+                    <h4>Reports</h4>
 
-        <hr />
+                    <a class="btn btn-warning" href="/Admin/SitingManage/AllRoundsReport">
+                        📊 View Full Report
+                    </a>
 
-        <h4>Quick Navigation</h4>
-
-        <a class="btn btn-primary" href="/Admin/SitingManage/RoundView?roundId=1">Round 1</a>
-        <a class="btn btn-primary" href="/Admin/SitingManage/RoundView?roundId=2">Round 2</a>
-        <a class="btn btn-primary" href="/Admin/SitingManage/RoundView?roundId=3">Round 3</a>
-        <a class="btn btn-primary" href="/Admin/SitingManage/RoundView?roundId=4">Round 4</a>
-        <a class="btn btn-primary" href="/Admin/SitingManage/RoundView?roundId=5">Round 5</a>
-        <a class="btn btn-primary" href="/Admin/SitingManage/RoundView?roundId=6">Round 6</a>
-
-        <hr />
-
-        <h4>Reports</h4>
-
-        <a class="btn btn-warning" href="/Admin/SitingManage/AllRoundsReport">
-            📊 View Full Report
-        </a>
-
-        <a class="btn btn-danger" href="/Admin/SitingManage/ExportExcel">
-            📥 Export Excel
-        </a>
+                    <a class="btn btn-danger" href="/Admin/SitingManage/ExportExcel">
+                        📥 Export Excel
+                    </a>
+                </div>
+            </div>
+        </div>
     </div>
 </section>
 <!-- ================= SCRIPT ================= -->
 <script>
-    document.getElementById("generateForm").addEventListener("submit", function () {
+    document.getElementById("generateForm").addEventListener("submit", function (e) {
 
-        // Show loader
-        document.getElementById("loader").style.display = "block";
+        e.preventDefault(); // stop instant submit
 
-        // Disable button
-        document.getElementById("generateBtn").disabled = true;
-        document.getElementById("generateBtn").innerText = "Generating... Please wait";
+        // show loader
+        document.getElementById("fullLoader").style.display = "flex";
+
+        // disable button
+        var btn = document.getElementById("generateBtn");
+        btn.disabled = true;
+        btn.innerText = "Processing...";
+
+        // submit after UI render
+        setTimeout(() => {
+            this.submit();
+        }, 200);
     });
 </script>

@@ -20,10 +20,10 @@
 
             <!-- LEFT BUTTONS -->
             <div class="pull-left">
-                <a class="btn btn-danger btn-flat"
+              @*   <a class="btn btn-danger btn-flat"
                    href="@Url.Action("BniMember", "Register")">
                     <i class="fa fa-plus"></i> Add BNI Member
-                </a>
+                </a> *@
 
                 <form method="post"
                       asp-action="DeleteSelected"
@@ -43,22 +43,18 @@
             <!-- SEARCH -->
             <div class="pull-right">
                 <form method="get" asp-action="BniMember" class="form-inline">
-
+                    <select id="pageSizeSelect" class="form-control input-sm" style="width:100px; display:inline-block;">
+                        <option value="20">20</option>
+                        <option value="30">30</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                    </select>
                     <input type="text"
-                           name="search"
-                           value="@Context.Request.Query["search"]"
+                           id="searchBox"
                            class="form-control input-sm"
-                           placeholder="Search Name/Phone/Email"
+                           placeholder="Search Name / Phone / Email"
                            style="width:200px;" />
-
-                    <button type="submit" class="btn btn-primary btn-sm">
-                        Search
-                    </button>
-
-                    <a asp-action="BniMember" class="btn btn-default btn-sm">
-                        Show All
-                    </a>
-
+ 
                 </form>
             </div>
 
@@ -66,7 +62,7 @@
 
         <!-- TABLE -->
         <div class="box-body table-responsive">
-            <table class="table table-bordered table-hover">
+            <table class="table table-bordered table-hover" id="userTable">
                 <thead>
                     <tr>
                         <th>Sr. No.</th>
@@ -173,6 +169,21 @@
                 container.appendChild(input);
             });
         });
+  
+    </script>
+    <script>
+        $("#searchBox").on("keyup", function () {
 
+            var value = $(this).val().toLowerCase();
+
+            $("#userTable tbody tr").filter(function () {
+
+                $(this).toggle(
+                    $(this).text().toLowerCase().indexOf(value) > -1
+                );
+
+            });
+
+        });
     </script>
 }
